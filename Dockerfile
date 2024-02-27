@@ -4,7 +4,7 @@ COPY gradlew build.gradle settings.gradle ./
 COPY gradle gradle
 RUN --mount=type=cache,id=gradle-cache,target=/root/.gradle ./gradlew --no-daemon --write-verification-metadata sha256 help && rm gradle/verification-metadata.xml
 COPY src src
-RUN --mount=type=cache,id=gradle-cache,target=/root/.gradle ./gradlew --no-daemon --build-cache build
+RUN --mount=type=cache,id=gradle-cache,target=/root/.gradle ./gradlew --no-daemon --build-cache -x test build
 
 # makes a reference to the corresponding SHA, but doesn't download the content itself.
 # Only the runner needs the .jar-file
