@@ -37,3 +37,18 @@ services:
       interval: 1m30s
       timeout: 10s
       retries: 3
+  test:
+    build:
+      target: testhelper
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=mysql
+      - MYSQL_URL=${MYSQL_URL}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASSWORD}
+    restart: no
+    profiles:
+      - test
+    command: ./gradlew --no-daemon --build-cache test
